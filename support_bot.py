@@ -27,13 +27,13 @@ def textMessage(bot, update):
     language_code = 'ru-RU'
     text = update.message.text
 
-    fulfillment_text = detect_intent_text(project_id, chat_id, text, language_code)
+    fulfillment_text = detect_intent.detect_intent_text(project_id, chat_id, text, language_code)
 
     logging.debug('Message text: {}\n'.format(text))
     logging.debug('Fulfillment text: {}\n'.format(fulfillment_text))
     
     bot.sendMessage(chat_id, fulfillment_text)
-    
+
 
 def main():
     # init
