@@ -6,14 +6,13 @@ import sys
 import argparse
 import logging
 import telegram
-import detect_intent_text
 from telegram.ext import Updater
 from telegram.ext import CommandHandler
 from telegram.ext import Filters
 from telegram.ext import MessageHandler
 from logging.handlers import RotatingFileHandler
 from dotenv import load_dotenv
-
+from detect_intent import detect_intent_text
 
 
 def start(bot, update):
@@ -21,13 +20,12 @@ def start(bot, update):
 
 
 def textMessage(bot, update):
-    dialogflow_token = os.getenv("DIALOGFLOW_TOKEN")
-    project_id = 'arkjzzz-dvmn-support-bot-gehlt'
+    credentials, project = google.auth.default()
     chat_id = update.message.chat_id
     language_code = 'ru-RU'
     text = update.message.text
 
-    fulfillment_text = detect_intent.detect_intent_text(project_id, chat_id, text, language_code)
+    fulfillment_text = detect_intent.detect_intent_text(project, chat_id, text, language_code)
 
     logging.debug('Message text: {}\n'.format(text))
     logging.debug('Fulfillment text: {}\n'.format(fulfillment_text))
@@ -41,10 +39,11 @@ def main():
 
     load_dotenv()
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'df_key.json'
+    credentials, project = google.auth.default()
+
     telegram_token = os.getenv("TELEGRAM_TOKEN")
     bot = telegram.Bot(token=telegram_token)
     updater = Updater(token=telegram_token)
-
 
     # do
     start_handler = CommandHandler('start', start)

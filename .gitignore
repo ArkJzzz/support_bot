@@ -1,5 +1,6 @@
 .env
-dialogflow_key.json
+*.json
 venv*
+
 
 
