@@ -14,8 +14,12 @@ import google.auth
 from dotenv import load_dotenv
 
 
-def create_intent(project_id, display_name, training_phrases_parts,
-                  message_texts):
+def create_intent(
+    project_id, 
+    display_name, 
+    training_phrases_parts, 
+    message_texts,
+    ):
     """Create an intent of the given intent type."""
     import dialogflow_v2 as dialogflow
     intents_client = dialogflow.IntentsClient()
@@ -35,19 +39,18 @@ def create_intent(project_id, display_name, training_phrases_parts,
     intent = dialogflow.types.Intent(
         display_name=display_name,
         training_phrases=training_phrases,
-        messages=[message])
+        messages=[message],
+        )
 
     response = intents_client.create_intent(parent, intent)
 
     print('Intent created: {}'.format(response))
 
 
-
 def main():
 
     load_dotenv()
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'df_key.json'
-    # project_id = os.getenv("DGF_PROJ_ID")
     credentials, project = google.auth.default()
 
     with open("questions.json", "r") as questions_file:
@@ -58,7 +61,12 @@ def main():
         training_phrases_parts = questions[display_name]['questions']
         message_texts = [questions[display_name]['answer']]
 
-        create_intent(project, display_name, training_phrases_parts, message_texts)
+        create_intent(
+            project, 
+            display_name, 
+            training_phrases_parts, 
+            message_texts,
+            )
 
 
 

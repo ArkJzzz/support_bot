@@ -30,7 +30,7 @@ import argparse
 import uuid
 import logging
 
-# [START dialogflow_detect_intent_text]
+
 def detect_intent_text(project_id, session_id, text, language_code):
     """Returns the result of detect intent with texts as inputs.
 
@@ -44,7 +44,9 @@ def detect_intent_text(project_id, session_id, text, language_code):
     query_input = dialogflow.types.QueryInput(text=text_input)
 
     response = session_client.detect_intent(
-        session=session, query_input=query_input)
+        session=session, 
+        query_input=query_input,
+        )
 
     logging.debug('Query text: {}'.format(response.query_result.query_text))
     logging.debug('Detected intent: {} (confidence: {})\n'.format(
@@ -54,7 +56,6 @@ def detect_intent_text(project_id, session_id, text, language_code):
          response.query_result.fulfillment_text))
 
     return response.query_result.fulfillment_text
-# [END dialogflow_detect_intent_text]
 
 
 if __name__ == '__main__':

@@ -16,7 +16,10 @@ from detect_intent import detect_intent_text
 
 
 def start(bot, update):
-    bot.sendMessage(chat_id=update.message.chat_id, text="start_handler: Здравствуйте.")
+    bot.sendMessage(
+        chat_id=update.message.chat_id, 
+        text="start_handler: Здравствуйте.",
+        )
 
 
 def textMessage(bot, update):
@@ -35,7 +38,10 @@ def textMessage(bot, update):
 
 def main():
     # init
-    logging.basicConfig(format = u'[LINE:%(lineno)d]#  %(message)s', level = logging.DEBUG)
+    logging.basicConfig(
+        format = u'[LINE:%(lineno)d]#  %(message)s', 
+        level = logging.DEBUG,
+        )
 
     load_dotenv()
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'df_key.json'
