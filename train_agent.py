@@ -4,8 +4,6 @@
 #    ToDo
 # - добавить в if __name__ == "__main__": argparse
 #
-#
-#
 ########################################################################
 
 import os
@@ -44,10 +42,12 @@ def create_intent(
 
     response = intents_client.create_intent(parent, intent)
 
-    print('Intent created: {}'.format(response))
+    logger.info('Intent created: {}'.format(response))
 
 
 def main():
+
+    logger = get_logger('train_agent')
 
     load_dotenv()
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'df_key.json'
@@ -55,7 +55,6 @@ def main():
 
     with open("questions.json", "r") as questions_file:
         questions = json.load(questions_file)
-
 
     for display_name in questions:
         training_phrases_parts = questions[display_name]['questions']

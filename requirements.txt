@@ -1,6 +1,10 @@
-python-telegram-bot==11.1.0
-python-dotenv==0.10.1
-pycurl==7.43.0
-requests==2.9.1
-urllib3==1.13.1
-
+pycurl
+requests
+urllib3
+logging
+python-dotenv
+google.auth
+google-nucleus
+dialogflow
+python-telegram-bot
+vk_api
