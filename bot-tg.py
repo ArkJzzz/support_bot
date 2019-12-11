@@ -44,7 +44,7 @@ def main():
     logger = get_logger('bot_tg')
 
     load_dotenv()
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'df_key.json'
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google-credentials.json'
     credentials, project = google.auth.default()
 
     telegram_token = os.getenv("TELEGRAM_TOKEN")
