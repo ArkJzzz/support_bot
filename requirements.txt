@@ -1,7 +1,6 @@
 pycurl
 requests
 urllib3
-logging
 python-dotenv
 google.auth
 google-nucleus
