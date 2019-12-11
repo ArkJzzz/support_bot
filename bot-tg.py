@@ -49,7 +49,7 @@ def main():
 
     telegram_token = os.getenv("TELEGRAM_TOKEN")
     bot = telegram.Bot(token=telegram_token)
-    updater = Updater(token=telegram_token)
+    updater = Updater(token=telegram_token, use_context=True)
 
     # do
     start_handler = CommandHandler('start', start)
