@@ -9,7 +9,7 @@ __author__ = 'ArkJzzz (arkjzzz@gmail.com)'
 
 import sys
 import time
-import logging
+# import logging
 from logging.handlers import RotatingFileHandler
 
 
