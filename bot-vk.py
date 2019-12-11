@@ -36,7 +36,7 @@ def main():
 
     load_dotenv()
     vk_token = os.getenv('VK_TOKEN')
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'df_key.json'
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google-credentials.json'
     credentials, project = google.auth.default()
 
     vk_session = vk_api.VkApi(token=vk_token)    
