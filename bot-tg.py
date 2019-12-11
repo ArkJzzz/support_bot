@@ -19,6 +19,7 @@ from detect_intent import detect_intent_text
 
 
 def start(bot, update):
+    logger.debug('start вроде бы')
     bot.sendMessage(
         chat_id=update.message.chat_id, 
         text="start_handler: Здравствуйте. Задавайте Ваш вопрос.",
@@ -58,7 +59,17 @@ def main():
     text_massage_handler = MessageHandler(Filters.text, send_text_message)
     updater.dispatcher.add_handler(text_massage_handler)
 
-    updater.start_polling()
+    logger.debug('все готово?')
+
+    while True:
+        try:
+            updater.start_polling()
+        except KeyboardInterrupt:
+            logger.info('Бот остановлен')
+        except Exception  as err:
+            logger.error('Бот упал с ошибкой:')
+            logger.error(err)
+            logger.debug(err, exc_info=True)
 
     # Останавливаем бота, если были нажаты Ctrl + C
     updater.idle()
