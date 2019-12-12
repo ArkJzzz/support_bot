@@ -66,7 +66,7 @@ def main():
     text_massage_handler = MessageHandler(Filters.text, send_text_message)
     updater.dispatcher.add_handler(text_massage_handler)
 
-    logger.debug('все готово?')
+    logger.debug('все готово')
 
     try:
         logger.debug('start_polling')
