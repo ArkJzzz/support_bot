@@ -49,7 +49,14 @@ def main():
     credentials, project = google.auth.default()
 
     telegram_token = os.getenv("TELEGRAM_TOKEN")
+
+    # если нужно запустить через socks5 proxy:
+    # pp = telegram.utils.request.Request(proxy_url='socks5h://51.158.68.133:8811')
+    # bot = telegram.Bot(token=telegram_token, request=pp)
+
+    # без socks5 proxy:
     bot = telegram.Bot(token=telegram_token)
+
     updater = Updater(token=telegram_token, use_context=True)
 
     # do
@@ -61,18 +68,23 @@ def main():
 
     logger.debug('все готово?')
 
-    while True:
-        try:
-            updater.start_polling()
-        except KeyboardInterrupt:
-            logger.info('Бот остановлен')
-        except Exception  as err:
-            logger.error('Бот упал с ошибкой:')
-            logger.error(err)
-            logger.debug(err, exc_info=True)
+    try:
+        logger.debug('start_polling')
+        updater.start_polling()
+        logger.debug('polling упал?')
+    except Exception as err:
+        print('все пропало')
+        print(err)
+    # except KeyboardInterrupt:
+    #     logger.info('Бот остановлен')
+    # except Exception  as err:
+    #     logger.error('Бот упал с ошибкой:')
+    #     logger.error(err)
+    #     logger.debug(err, exc_info=True)
+    # print('чего-то ждем?')
 
     # Останавливаем бота, если были нажаты Ctrl + C
-    updater.idle()
+    # updater.idle()
 
 
 if __name__ == "__main__":
