@@ -18,26 +18,33 @@ from my_logger import get_logger
 from detect_intent import detect_intent_text
 
 
-def start(bot, update):
-    logger.debug('start вроде бы')
-    bot.sendMessage(
-        chat_id=update.message.chat_id, 
-        text="start_handler: Здравствуйте. Задавайте Ваш вопрос.",
-        )
+def start(update, context):
+    chat_id=update.effective_chat.id
+    text='start_handler: Здравствуйте. Задавайте Ваш вопрос.'
+
+    context.bot.send_message(chat_id, text)
+
+    logger.debug('start_handler')
 
 
-def send_text_message(bot, update):
+def send_text_message(update, context):
     credentials, project = google.auth.default()
-    chat_id = update.message.chat_id
+
+    chat_id = update.effective_chat.id
+    username = update.effective_chat.username
     language_code = 'ru-RU'
     text = update.message.text
+    
+    query_result = detect_intent_text(project, chat_id, text, language_code)
+    
+    answer = query_result.fulfillment_text
+
+    context.bot.send_message(chat_id, answer)
 
     logger.debug('Новое сообщение:')
-    logger.debug('Для меня от: {}'.format(chat_id))
-    logger.debug('Текст:{}\n'.format(event.text))
-
-    query_result = detect_intent_text(project, user_id, text, language_code)
-    bot.sendMessage(chat_id, query_result.fulfillment_text)
+    logger.debug('Для меня от {}, chat_id {}'.format(username, chat_id))
+    logger.debug('Текст: {}'.format(text))
+    logger.debug('Ответ: {}\n'.format(answer))
 
 
 def main():
@@ -50,14 +57,19 @@ def main():
 
     telegram_token = os.getenv("TELEGRAM_TOKEN")
 
-    # если нужно запустить через socks5 proxy:
-    # pp = telegram.utils.request.Request(proxy_url='socks5h://51.158.68.133:8811')
-    # bot = telegram.Bot(token=telegram_token, request=pp)
+    # если нужно запустить через socks proxy:
+    REQUEST_KWARGS={
+        'proxy_url': 'socks4://171.103.9.22:4145/',
+        # Optional, if you need authentication:
+        'urllib3_proxy_kwargs': {
+            'assert_hostname': 'False',
+            'cert_reqs': 'CERT_NONE'
+            # 'username': 'user',
+            # 'password': 'password'
+        }
+    }
 
-    # без socks5 proxy:
-    bot = telegram.Bot(token=telegram_token)
-
-    updater = Updater(token=telegram_token, use_context=True)
+    updater = Updater(token=telegram_token, use_context=True, request_kwargs=None)
 
     # do
     start_handler = CommandHandler('start', start)
@@ -69,23 +81,20 @@ def main():
     logger.debug('все готово')
 
     try:
-        logger.debug('start_polling')
         updater.start_polling()
-        logger.debug('polling упал?')
+
     except Exception as err:
         print('все пропало')
         print(err)
-    # except KeyboardInterrupt:
-    #     logger.info('Бот остановлен')
-    # except Exception  as err:
-    #     logger.error('Бот упал с ошибкой:')
-    #     logger.error(err)
-    #     logger.debug(err, exc_info=True)
-    # print('чего-то ждем?')
+    except KeyboardInterrupt:
+        logger.info('Бот остановлен')
+    except Exception  as err:
+        logger.error('Бот упал с ошибкой:')
+        logger.error(err)
+        logger.debug(err, exc_info=True)
 
-    # Останавливаем бота, если были нажаты Ctrl + C
-    # updater.idle()
-
+    updater.idle()
+    logger.info('Бот остановлен') 
 
 if __name__ == "__main__":
     main()
