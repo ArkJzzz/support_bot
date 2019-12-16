@@ -50,22 +50,31 @@ def main():
     logger = get_logger('train_agent')
 
     load_dotenv()
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'df_key.json'
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google-credentials.json'
     credentials, project = google.auth.default()
 
-    with open("questions.json", "r") as questions_file:
-        questions = json.load(questions_file)
+    parser = argparse.ArgumentParser(
+        description='Программа для нейросети DialogFlow тренировочными фразами и ответами из файла .json'
+        )
+    parser.add_argument('-fn', '--filename', help='введите <имя_файла.json> с тренировочными фразами и ответами')
+    args = parser.parse_args()
 
-    for display_name in questions:
-        training_phrases_parts = questions[display_name]['questions']
-        message_texts = [questions[display_name]['answer']]
+    try:
+        with open(args.filename, "r") as questions_file:
+            questions = json.load(questions_file)
 
-        create_intent(
-            project, 
-            display_name, 
-            training_phrases_parts, 
-            message_texts,
-            )
+        for display_name in questions:
+            training_phrases_parts = questions[display_name]['questions']
+            message_texts = [questions[display_name]['answer']]
+
+            create_intent(
+                project, 
+                display_name, 
+                training_phrases_parts, 
+                message_texts,
+                )
+    except:
+        logging.error('Все пропало..', exc_info=True)
 
 
 
