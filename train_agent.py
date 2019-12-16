@@ -9,7 +9,11 @@
 import os
 import json
 import google.auth
+import argparse
 from dotenv import load_dotenv
+from my_logger import get_logger
+
+logger = get_logger('train_agent')
 
 
 def create_intent(
@@ -42,19 +46,17 @@ def create_intent(
 
     response = intents_client.create_intent(parent, intent)
 
-    logger.info('Intent created: {}'.format(response))
+    logger.info('Intent created: {}'.format(display_name))
 
 
 def main():
-
-    logger = get_logger('train_agent')
 
     load_dotenv()
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google-credentials.json'
     credentials, project = google.auth.default()
 
     parser = argparse.ArgumentParser(
-        description='Программа для нейросети DialogFlow тренировочными фразами и ответами из файла .json'
+        description='Программа для обучения нейросети DialogFlow тренировочными фразами и ответами из файла .json'
         )
     parser.add_argument('-fn', '--filename', help='введите <имя_файла.json> с тренировочными фразами и ответами')
     args = parser.parse_args()
@@ -73,9 +75,11 @@ def main():
                 training_phrases_parts, 
                 message_texts,
                 )
-    except:
-        logging.error('Все пропало..', exc_info=True)
 
+    except FileNotFoundError:
+        logger.error('No such file or directory: {}'.format(args.filename))
+    except google.api_core.exceptions.FailedPrecondition:
+        logger.error('Intent with the display_name "{}" already exists'.format(display_name))
 
 
 if __name__ == "__main__":
