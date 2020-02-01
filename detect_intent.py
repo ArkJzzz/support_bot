@@ -29,7 +29,9 @@ Examples:
 
 import argparse
 import uuid
+import dialogflow_v2 as dialogflow
 from my_logger import get_logger
+
 
 logger = get_logger('detect_intent')
 
@@ -38,8 +40,7 @@ def detect_intent_text(project_id, session_id, text, language_code):
 
     Using the same `session_id` between requests allows continuation
     of the conversation."""
-
-    import dialogflow_v2 as dialogflow
+    
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(project_id, session_id)
     text_input = dialogflow.types.TextInput(

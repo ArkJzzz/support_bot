@@ -53,11 +53,13 @@
 ```
 git clone https://github.com/ArkJzzz/support_bot.git
 ```
+
 2. Создать файл ```.env``` и поместить в него токены Telegram и ВКонтакте:
 ```
 TELEGRAM_TOKEN='Ваш токен'
 VK_TOKEN='Ваш токен'
 ```
+
 3. Установить зависимости:
 ```
 pip3 install -r requirements.txt

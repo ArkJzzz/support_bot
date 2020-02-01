@@ -10,6 +10,7 @@ import os
 import json
 import google.auth
 import argparse
+import dialogflow_v2 as dialogflow
 from dotenv import load_dotenv
 from my_logger import get_logger
 
@@ -23,7 +24,7 @@ def create_intent(
     message_texts,
     ):
     """Create an intent of the given intent type."""
-    import dialogflow_v2 as dialogflow
+    
     intents_client = dialogflow.IntentsClient()
 
     parent = intents_client.project_agent_path(project_id)
