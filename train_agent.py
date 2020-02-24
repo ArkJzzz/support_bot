@@ -16,7 +16,6 @@ from my_logger import get_logger
 
 logger = get_logger('train_agent')
 
-
 def create_intent(
     project_id, 
     display_name, 

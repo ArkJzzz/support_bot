@@ -29,11 +29,11 @@ Examples:
 
 import argparse
 import uuid
+import logging
 import dialogflow_v2 as dialogflow
-from my_logger import get_logger
 
 
-logger = get_logger('detect_intent')
+logger = logging.getLogger(__file__)
 
 def detect_intent_text(project_id, session_id, text, language_code):
     """Returns the result of detect intent with texts as inputs.
