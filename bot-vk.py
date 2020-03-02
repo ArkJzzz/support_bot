@@ -27,7 +27,7 @@ def send_text_message(event, vk):
 
     logger.info('Detect Intent: {}\n'.format(query_result.intent.display_name))
 
-    if query_result.intent.is_fallback != True:
+    if not query_result.intent.is_fallback:
 	    vk.messages.send(
 	        user_id = user_id,
 	        message = query_result.fulfillment_text,
