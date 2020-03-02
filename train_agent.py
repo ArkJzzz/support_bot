@@ -14,7 +14,7 @@ import dialogflow_v2 as dialogflow
 from dotenv import load_dotenv
 from my_logger import get_logger
 
-logger = get_logger('train_agent')
+logger = get_logger(__file__)
 
 def create_intent(
     project_id, 

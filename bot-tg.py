@@ -21,12 +21,6 @@ from detect_intent import detect_intent_text
 
 logger = logging.getLogger('bot_tg')
 
-logging.basicConfig(
-    format='%(asctime)s %(name)s - %(funcName)s:%(lineno)d - %(message)s', 
-    datefmt='%Y-%b-%d %H:%M:%S (%Z)',
-    )
-
-
 def start(update, context):
     chat_id=update.effective_chat.id
     text='start_handler: Здравствуйте. Задавайте Ваш вопрос.'
@@ -58,8 +52,13 @@ def send_text_message(update, context):
 
 
 def main():
+
     # init
 
+    logging.basicConfig(
+        format='%(asctime)s %(name)s - %(funcName)s:%(lineno)d - %(message)s', 
+        datefmt='%Y-%b-%d %H:%M:%S (%Z)',
+    )
     logger.setLevel(logging.DEBUG)
 
     load_dotenv()
@@ -94,6 +93,7 @@ def main():
     )
 
     # do
+    
     start_handler = CommandHandler('start', start)
     updater.dispatcher.add_handler(start_handler)
 

@@ -14,10 +14,6 @@ from detect_intent import detect_intent_text
 
 logger = logging.getLogger('bot_vk')
 
-logging.basicConfig(
-    format='%(asctime)s %(name)s - %(funcName)s:%(lineno)d - %(message)s', 
-    datefmt='%Y-%b-%d %H:%M:%S (%Z)',
-    )
 
 
 
@@ -31,7 +27,7 @@ def send_text_message(event, vk):
 
     logger.info('Detect Intent: {}\n'.format(query_result.intent.display_name))
 
-    if query_result.intent.is_fallback != True: #FIXME: отловить флаг 'fallback'
+    if query_result.intent.is_fallback != True:
 	    vk.messages.send(
 	        user_id = user_id,
 	        message = query_result.fulfillment_text,
@@ -42,6 +38,11 @@ def send_text_message(event, vk):
 def main():
 
     # init
+
+    logging.basicConfig(
+        format='%(asctime)s %(name)s - %(funcName)s:%(lineno)d - %(message)s', 
+        datefmt='%Y-%b-%d %H:%M:%S (%Z)',
+    )
     logger.setLevel(logging.DEBUG)
 
     load_dotenv()

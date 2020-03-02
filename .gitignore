@@ -1,4 +1,5 @@
 .env
+logging.conf
 *.json
 *.log*
 venv*
